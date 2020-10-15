@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.MysqlTemplateMapper">
+    <!--返回模型-->
+    <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="is_enabled" jdbcType="INTEGER" property="isEnabled" />
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+        <result column="create_by" jdbcType="INTEGER" property="createBy" />
+        <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, content, type, is_enabled, delete_flag, create_by, update_by, create_time, update_time
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_template
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 根据实体查询单条 -->
+    <select id="selectByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_template
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null" >
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询多条 -->
+    <select id="selectByEntityList" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_template
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null" >
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <!-- 根据实体查询ID -->
+    <select id="selectById" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_template
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null" >
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询IDs-->
+    <select id="selectByIds" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_template
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null" >
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from mysql_template where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--  插入单条记录（字段为空则不添加）  -->
+    <insert id="insertSelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into mysql_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="deleteFlag != null" >
+                delete_flag,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateBy != null" >
+                update_by,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="createBy != null" >
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </trim>
+    </insert>
+    <!-- 根据主键修改  -->
+    <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate">
+        update mysql_template
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="createBy != null" >
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据主键批量删除-->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from mysql_template where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--根据某些条件删除-->
+    <delete id="deleteByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlTemplate">
+        delete from mysql_template where  1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null" >
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </delete>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="head" property="head" jdbcType="VARCHAR" />
+    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, pwd, name, status, head, role_key, create_by, create_time, update_by, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into user (account, pwd, name, 
+      status, head, role_key, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{account,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{head,jdbcType=VARCHAR}, #{roleKey,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="pwd != null" >
+        pwd,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="head != null" >
+        head,
+      </if>
+      <if test="roleKey != null" >
+        role_key,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="head != null" >
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" >
+    update user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="head != null" >
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" >
+    update user
+    set account = #{account,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      head = #{head,jdbcType=VARCHAR},
+      role_key = #{roleKey,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user
+    <where>
+      <if test="account != null" >
+        and account = #{account,jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null" >
+        and pwd = #{pwd,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=BIT}
+      </if>
+      <if test="head != null" >
+        and head = #{head,jdbcType=VARCHAR}
+      </if>
+      <if test="roleKey != null" >
+        and role_key = #{roleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="createBy != null" >
+        and create_by = #{createBy,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        and update_by = #{updateBy,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    limit 1
+  </select>
+
+
+  <select id="selectByEntityList" parameterType="com.lhx.study.mygeneratorcode.entity.po.User" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user
+    <where>
+      <if test="account != null" >
+        and account = #{account,jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null" >
+        and pwd = #{pwd,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=BIT}
+      </if>
+      <if test="head != null" >
+        and head = #{head,jdbcType=VARCHAR}
+      </if>
+      <if test="roleKey != null" >
+        and role_key = #{roleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="createBy != null" >
+        and create_by = #{createBy,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null" >
+        and update_by = #{updateBy,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+
+
+
+  <select id="selectNameById" parameterType="integer" resultType="java.lang.String">
+    select name
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="accountListPage" parameterType="com.lhx.study.mygeneratorcode.vo.request.account.AccountListReqVo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user
+    <where>
+      <if test="!flag">
+        and (role_key  &lt;&gt; 'super_admin' and role_key &lt;&gt; 'admin')
+      </if>
+      <if test="account != null and account !=''">
+        and (account like CONCAT('%', #{account,jdbcType=VARCHAR}, '%')
+        or name like CONCAT('%', #{account,jdbcType=VARCHAR}, '%'))
+      </if>
+      <if test="status != null">
+        and status = #{status,jdbcType=BIT}
+      </if>
+      <if test="startTime != null and startTime !=''">
+        and create_time &gt;= str_to_date(#{startTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
+      </if>
+      <if test="endTime != null and endTime !=''">
+        and create_time &lt;= str_to_date(#{endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
+      </if>
+    </where>
+    order by create_time desc
+  </select>
+
+
+
+</mapper>

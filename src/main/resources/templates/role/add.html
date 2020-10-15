@@ -1,0 +1,27 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleName" lay-verify="required"  placeholder="请输入角色名" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色key</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleKey" lay-verify="required"  placeholder="请输入角色key" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea name="remark" placeholder="备注信息" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <button lay-filter="add" lay-submit style="display: none;"></button>
+    </form>
+</div>

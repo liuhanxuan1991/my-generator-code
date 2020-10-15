@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.RoleMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_key, menu_id, delete_flag, create_by, update_by, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" useGeneratedKeys="true" keyProperty="id" >
+    insert into role_menu (role_key, menu_id, delete_flag, 
+      create_by, update_by, create_time, 
+      update_time)
+    values (#{roleKey,jdbcType=VARCHAR}, #{menuId,jdbcType=INTEGER}, #{deleteFlag,jdbcType=BIT}, 
+      #{createBy,jdbcType=INTEGER}, #{updateBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" useGeneratedKeys="true" keyProperty="id" >
+    insert into role_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleKey != null" >
+        role_key,
+      </if>
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" >
+    update role_menu
+    <set >
+      <if test="roleKey != null" >
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" >
+    update role_menu
+    set role_key = #{roleKey,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByEntityList" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from role_menu
+    <where>
+      <if test="id !=null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="roleKey != null" >
+        and role_key = #{roleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="menuId != null" >
+        and menu_id = #{menuId,jdbcType=INTEGER}
+      </if>
+      <if test="deleteFlag != null" >
+        and delete_flag = #{deleteFlag,jdbcType=BIT}
+      </if>
+      <if test="createBy != null" >
+        and create_by = #{createBy,jdbcType=INTEGER}
+      </if>
+      <if test="updateBy != null" >
+        and update_by = #{updateBy,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+
+  </select>
+
+  <resultMap id="MenuByRoleKeyMap" type="com.lhx.study.mygeneratorcode.vo.response.role.RoleMenuResVo">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <collection property="children" column="id" javaType="java.util.ArrayList" select="selectByParentId"/>
+  </resultMap>
+
+  <select id="selectByParentId" resultMap="MenuByRoleKeyMap">
+    select nav.id, nav.title, nav.parent_id
+    from navigation nav
+    where nav.parent_id = #{id,jdbcType=INTEGER}
+    and nav.delete_flag = 0
+  </select>
+
+  <select id="queryMenuByRoleKey" parameterType="string" resultMap="MenuByRoleKeyMap">
+    select nav.id, nav.title, nav.parent_id
+    from role_menu rm left join navigation nav on rm.menu_id = nav.id
+    where nav.parent_id = 0
+    and rm.role_key = #{roleKey,jdbcType=VARCHAR}
+    and rm.delete_flag = 0
+    and nav.delete_flag = 0
+  </select>
+
+
+
+
+  <resultMap id="queryForUpdateMap" type="com.lhx.study.mygeneratorcode.entity.bo.RoleMenuBo">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    <collection property="childList" column="{id=id, roleKey = role_key}" javaType="java.util.ArrayList" select="queryForUpdateSelf"/>
+  </resultMap>
+
+
+  <select id="queryForUpdateSelf" resultMap="queryForUpdateMap">
+    select nav.id, nav.title,
+    nav.parent_id, t.role_key
+    from navigation nav
+    left join
+      (select rm.role_key,rm.menu_id
+        from role_menu rm
+        where rm.delete_flag = 0
+        and rm.role_key = #{roleKey,jdbcType=VARCHAR}
+      ) t
+    on nav.id = t.menu_id
+    where nav.parent_id = #{id,jdbcType=INTEGER}
+
+  </select>
+
+
+  <select id="queryForUpdate" parameterType="string" resultMap="queryForUpdateMap">
+    select nav.id, nav.title,
+    nav.parent_id, t.role_key
+    from navigation nav
+    left join
+      (select rm.role_key,rm.menu_id
+        from role_menu rm
+        where rm.delete_flag = 0
+        and rm.role_key = #{roleKey,jdbcType=VARCHAR}
+      ) t
+    on nav.id = t.menu_id
+    where nav.parent_id = 0
+  </select>
+
+
+  <delete id="deleteByRoleKey" parameterType="string">
+    delete from role_menu
+    where role_key = #{roleKey,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByRoleKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" >
+    update role_menu
+    <set >
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_key = #{roleKey,jdbcType=VARCHAR}
+  </update>
+
+
+  <update id="updateByMenuId" parameterType="com.lhx.study.mygeneratorcode.entity.po.RoleMenu" >
+    update role_menu
+    <set >
+      <if test="roleKey != null" >
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

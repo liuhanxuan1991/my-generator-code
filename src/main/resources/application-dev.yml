@@ -1,0 +1,33 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/my_generator?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    driver-class-name: com.mysql.jdbc.Driver
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall
+    logSlowSql: true
+    loginUsername: admin
+    loginPassword: admin
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+#日志配置
+logging:
+  config: classpath:logback-spring.xml
+  path: log
+
+#文件存放路径
+basePath: doc/static/
+
+

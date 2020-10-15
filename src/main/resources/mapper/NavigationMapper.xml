@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.NavigationMapper">
+  <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.Navigation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="spread" jdbcType="BIT" property="spread" />
+    <result column="href" jdbcType="VARCHAR" property="href" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="rank" jdbcType="INTEGER" property="rank" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, title, icon, spread, href, parent_id, delete_flag, create_by, create_time, update_by, 
+    update_time, `rank`
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from navigation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from navigation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" keyProperty="id" parameterType="com.lhx.study.mygeneratorcode.entity.po.Navigation" useGeneratedKeys="true">
+    insert into navigation (title, icon, spread, 
+      href, parent_id, delete_flag, 
+      create_by, create_time, update_by, 
+      update_time, `rank`)
+    values (#{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{spread,jdbcType=BIT}, 
+      #{href,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{deleteFlag,jdbcType=BIT}, 
+      #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{rank,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" keyProperty="id" parameterType="com.lhx.study.mygeneratorcode.entity.po.Navigation" useGeneratedKeys="true">
+    insert into navigation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="spread != null">
+        spread,
+      </if>
+      <if test="href != null">
+        href,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="rank != null">
+        `rank`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="spread != null">
+        #{spread,jdbcType=BIT},
+      </if>
+      <if test="href != null">
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rank != null">
+        #{rank,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.Navigation">
+    update navigation
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="spread != null">
+        spread = #{spread,jdbcType=BIT},
+      </if>
+      <if test="href != null">
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rank != null">
+        `rank` = #{rank,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.Navigation">
+    update navigation
+    set title = #{title,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      spread = #{spread,jdbcType=BIT},
+      href = #{href,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `rank` = #{rank,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--递归查询-->
+  <resultMap id="selectByRoleMap" extends="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.Navigation">
+    <collection column="{id = id,flag = flag,roleKey = role_key}" javaType="java.util.ArrayList" property="children" select="selectByParentId"/>
+  </resultMap>
+
+
+  <select id="selectByParentId" resultMap="selectByRoleMap">
+    select nav.*,#{flag} as flag, #{roleKey,jdbcType=VARCHAR} as role_key
+    FROM navigation nav
+    where nav.delete_flag = 0
+    and nav.parent_id = #{id,jdbcType=INTEGER}
+    <if test="!flag">
+      AND nav.id IN (
+      SELECT
+      rm.menu_id
+      FROM
+      role_menu rm LEFT JOIN role ro ON rm.role_key = ro.role_key
+      WHERE
+      ro.delete_flag = 0
+      AND
+      rm.delete_flag = 0
+      AND rm.role_key = #{roleKey,jdbcType=VARCHAR}
+      )
+    </if>
+    order by nav.rank ASC, nav.id ASC
+  </select>
+
+
+  <select id="selectByRole" resultMap="selectByRoleMap">
+    SELECT
+        nav.*,#{flag} as flag, #{roleKey,jdbcType=VARCHAR} as role_key
+    FROM
+        navigation nav
+    WHERE
+        nav.delete_flag = 0
+      AND nav.parent_id = 0
+    <if test="!flag">
+      AND nav.id IN (
+      SELECT
+      rm.menu_id
+      FROM
+      role_menu rm LEFT JOIN role ro ON rm.role_key = ro.role_key
+      WHERE
+      ro.delete_flag = 0
+      AND
+      rm.delete_flag = 0
+      AND rm.role_key = #{roleKey,jdbcType=VARCHAR}
+      )
+    </if>
+    order by nav.rank ASC, nav.id ASC
+  </select>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from navigation
+    where delete_flag = 0
+    order by create_time
+  </select>
+
+
+  <select id="queryNavList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from navigation
+    where delete_flag = 0
+    <if test="id != null">
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    order by create_time
+  </select>
+
+
+
+
+
+</mapper>

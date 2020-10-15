@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.MysqlCodePathConfigMapper">
+    <!--返回模型-->
+    <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="entity_path" jdbcType="VARCHAR" property="entityPath" />
+        <result column="dao_path" jdbcType="VARCHAR" property="daoPath" />
+        <result column="mapper_xml_path" jdbcType="VARCHAR" property="mapperXmlPath" />
+        <result column="service_path" jdbcType="VARCHAR" property="servicePath" />
+        <result column="controller_path" jdbcType="VARCHAR" property="controllerPath" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="config_name" jdbcType="VARCHAR" property="configName"></result>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, entity_path, dao_path, mapper_xml_path, service_path, controller_path, user_id, create_time, update_time,config_name
+
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_code_path_config
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 根据实体查询单条 -->
+    <select id="selectByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_code_path_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="configName != null" >
+            and config_name = #{configName,jdbcType=VARCHAR}
+        </if>
+        <if test="entityPath != null" >
+            and entity_path = #{entityPath,jdbcType=VARCHAR}
+        </if>
+        <if test="daoPath != null" >
+            and dao_path = #{daoPath,jdbcType=VARCHAR}
+        </if>
+        <if test="mapperXmlPath != null" >
+            and mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="servicePath != null" >
+            and service_path = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="controllerPath != null" >
+            and controller_path = #{controllerPath,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询多条 -->
+    <select id="selectByEntityList" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_code_path_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="configName != null" >
+            and config_name = #{configName,jdbcType=VARCHAR}
+        </if>
+        <if test="entityPath != null" >
+            and entity_path = #{entityPath,jdbcType=VARCHAR}
+        </if>
+        <if test="daoPath != null" >
+            and dao_path = #{daoPath,jdbcType=VARCHAR}
+        </if>
+        <if test="mapperXmlPath != null" >
+            and mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="servicePath != null" >
+            and service_path = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="controllerPath != null" >
+            and controller_path = #{controllerPath,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        order by id desc
+
+    </select>
+
+    <!-- 根据实体查询ID -->
+    <select id="selectById" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_code_path_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="configName != null" >
+            and config_name = #{configName,jdbcType=VARCHAR}
+        </if>
+        <if test="entityPath != null" >
+            and entity_path = #{entityPath,jdbcType=VARCHAR}
+        </if>
+        <if test="daoPath != null" >
+            and dao_path = #{daoPath,jdbcType=VARCHAR}
+        </if>
+        <if test="mapperXmlPath != null" >
+            and mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="servicePath != null" >
+            and service_path = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="controllerPath != null" >
+            and controller_path = #{controllerPath,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询IDs-->
+    <select id="selectByIds" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_code_path_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="configName != null" >
+            and config_name = #{configName,jdbcType=VARCHAR}
+        </if>
+        <if test="entityPath != null" >
+            and entity_path = #{entityPath,jdbcType=VARCHAR}
+        </if>
+        <if test="daoPath != null" >
+            and dao_path = #{daoPath,jdbcType=VARCHAR}
+        </if>
+        <if test="mapperXmlPath != null" >
+            and mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="servicePath != null" >
+            and service_path = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="controllerPath != null" >
+            and controller_path = #{controllerPath,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from mysql_code_path_config where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <!--  插入单条记录（全字段）  -->
+    <insert id="insert" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into mysql_code_path_config (
+            entity_path, dao_path, mapper_xml_path, service_path, controller_path, user_id, create_time, update_time
+
+        )
+        values (
+            #{entityPath,jdbcType=VARCHAR}, , #{daoPath,jdbcType=VARCHAR}, , #{mapperXmlPath,jdbcType=VARCHAR}, , #{servicePath,jdbcType=VARCHAR}, , #{controllerPath,jdbcType=VARCHAR}, , #{userId,jdbcType=INTEGER}, , #{createTime,jdbcType=TIMESTAMP}, , #{updateTime,jdbcType=TIMESTAMP},
+        )
+    </insert>
+    <!--  插入单条记录（字段为空则不添加）  -->
+    <insert id="insertSelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into mysql_code_path_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="configName != null" >
+                config_name,
+            </if>
+            <if test="entityPath != null">
+                entity_path,
+            </if>
+            <if test="daoPath != null">
+                dao_path,
+            </if>
+            <if test="mapperXmlPath != null">
+                mapper_xml_path,
+            </if>
+            <if test="servicePath != null">
+                service_path,
+            </if>
+            <if test="controllerPath != null">
+                controller_path,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configName != null" >
+                #{configName,jdbcType=VARCHAR},
+            </if>
+            <if test="entityPath != null">
+                #{entityPath,jdbcType=VARCHAR},
+            </if>
+            <if test="daoPath != null">
+                #{daoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="mapperXmlPath != null">
+                #{mapperXmlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePath != null">
+                #{servicePath,jdbcType=VARCHAR},
+            </if>
+            <if test="controllerPath != null">
+                #{controllerPath,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </trim>
+    </insert>
+    <!-- 根据主键修改  -->
+    <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig">
+        update mysql_code_path_config
+        <set>
+            <if test="configName != null" >
+                config_name = #{configName,jdbcType=VARCHAR},
+            </if>
+            <if test="entityPath != null">
+                entity_path = #{entityPath,jdbcType=VARCHAR},
+            </if>
+            <if test="daoPath != null">
+                dao_path = #{daoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="mapperXmlPath != null">
+                mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePath != null">
+                service_path = #{servicePath,jdbcType=VARCHAR},
+            </if>
+            <if test="controllerPath != null">
+                controller_path = #{controllerPath,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--批量插入-->
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into mysql_code_path_config (
+        entity_path, dao_path, mapper_xml_path, service_path, controller_path, user_id, create_time, update_time,config_name
+
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.entityPath,jdbcType=VARCHAR},
+            #{item.daoPath,jdbcType=VARCHAR},
+            #{item.mapperXmlPath,jdbcType=VARCHAR},
+            #{item.servicePath,jdbcType=VARCHAR},
+            #{item.controllerPath,jdbcType=VARCHAR},
+            #{item.userId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.configName,jdbcType=VARCHAR}
+
+            )
+        </foreach>
+    </insert>
+    <!--批量修改-->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            update mysql_code_path_config
+            set
+            entity_path = #{item.entityPath,jdbcType=VARCHAR},
+            dao_path = #{item.daoPath,jdbcType=VARCHAR},
+            mapper_xml_path = #{item.mapperXmlPath,jdbcType=VARCHAR},
+            service_path = #{item.servicePath,jdbcType=VARCHAR},
+            controller_path = #{item.controllerPath,jdbcType=VARCHAR},
+            user_id = #{item.userId,jdbcType=INTEGER},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            config_name = #{item.configName,jdbcType=VARCHAR}
+
+            where id = #{id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <!--根据主键批量删除-->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from mysql_code_path_config where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--根据某些条件删除-->
+    <delete id="deleteByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlCodePathConfig">
+        delete from mysql_code_path_config where  1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="entityPath != null" >
+            and entity_path = #{entityPath,jdbcType=VARCHAR}
+        </if>
+        <if test="daoPath != null" >
+            and dao_path = #{daoPath,jdbcType=VARCHAR}
+        </if>
+        <if test="mapperXmlPath != null" >
+            and mapper_xml_path = #{mapperXmlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="servicePath != null" >
+            and service_path = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="controllerPath != null" >
+            and controller_path = #{controllerPath,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </delete>
+</mapper>

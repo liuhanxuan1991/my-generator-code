@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>源计划</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/global.css" media="all">
+
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
+    <div class="layui-header header header-demo" style="background:#1AA094">
+        <div class="layui-main">
+            <div class="admin-login-box">
+                <a class="logo" style="left: 10%;" href="/">
+                    <img src="/favicon2.ico" style="width: 25px;height: 25px;"/>&nbsp;
+                    <span style="font-size: 22px;">源 计 划</span>
+                </a>
+                <div class="admin-side-toggle">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+                <div class="admin-side-full">
+                    <i class="fa fa-life-bouy" aria-hidden="true"></i>
+                </div>
+            </div>
+            <ul class="layui-nav admin-header-item">
+                <li class="layui-nav-item">
+                    <a href="javascript:;" class="admin-header-user">
+                        <#if Session.user_key?exists>
+                        <#if Session.user_key.head?? && Session.user_key.head != "">
+                        <img src="${Session.session_back_login.head}" />
+                        <#else>
+                        <img src="/images/0.jpg" />
+                    </#if>
+                    <span style="color: white">${Session.user_key.name}</span>
+                    <#else>
+                    <img src="/images/0.jpg" />
+                    <span style="color: white">beginner</span>
+                </#if>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a id="modifyPass"><i class="fa fa-alter-pass" aria-hidden="true"></i> 修改密码</a>
+                    </dd>
+                    <dd>
+                        <a href="/api/user/loginOut"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                    </dd>
+                </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav admin-header-item-mobile">
+                <li class="layui-nav-item">
+                    <!--<a id="modifyPass"><i class="fa fa-alter-pass" aria-hidden="true"></i> 修改密码</a>-->
+                </li>
+                <li class="layui-nav-item">
+                    <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-side layui-bg-black" id="admin-side">
+        <div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side"></div>
+    </div>
+    <div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body">
+        <div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+            <ul class="layui-tab-title" style="background-color:white">
+                <li class="layui-this">
+                    <i class="fa fa-dashboard" aria-hidden="true"></i>
+                    <cite>首页</cite>
+                </li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="admin-main">
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer footer footer-demo" id="admin-footer">
+        <div class="layui-main">
+        </div>
+    </div>
+    <div class="site-tree-mobile layui-hide">
+        <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+    <!--锁屏模板 start-->
+    <script type="text/template" id="lock-temp">
+        <div class="admin-header-lock" id="lock-box">
+            <div class="admin-header-lock-img">
+                <#if Session.user_key?exists>
+                    <#if Session.user_key.head?? && Session.user_key.head != "">
+                        <img src="${Session.user_key.head}" />
+                    <#else>
+                        <img src="/images/0.jpg" />
+                </#if>
+        </#if>
+        </div>
+        <#if Session.user_key?exists>
+            <div class="admin-header-lock-name" >${Session.user_key.name}</div>
+        <#else>
+            <div class="admin-header-lock-name" >beginner</div>
+        </#if>
+        <input type="password" class="admin-header-lock-input" placeholder="输入密码解锁.." name="lockPwd" id="lockPwd" />
+        <button class="layui-btn layui-btn-small" id="unlock">解锁</button>
+        </div>
+    </script>
+    <!--锁屏模板 end -->
+
+
+</div>
+
+<!--修改密码模版-->
+<template id="modifyPassTemplate" hidden>
+    <div class="admin-main">
+
+        <div class="layui-form" lay-filter="modifyPass-form" id="modifyPassform">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="oldPassword" name="oldPassword" maxlength="20" lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="newPassword" name="newPassword" maxlength="20" lay-verify="required" placeholder="请输入新密码，长度6-20位" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认新密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="rePassword" name="rePassword" maxlength="20" lay-verify="required" placeholder="请输入新密码，以作再次确认" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</template>
+
+
+<script type="text/javascript" src="/layui//layui.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
+<script>
+    layui.config({
+        base: '/js/'
+    });
+
+
+    layui.use([ 'form','laydate','laypage', 'table','util'], function () {
+
+
+
+        var laydate = layui.laydate //日期
+            ,$ = layui.jquery
+            ,laypage = layui.laypage //分页
+            ,table = layui.table //表格
+            ,upload = layui.upload //上传
+            ,element = layui.element
+            ,form = layui.form
+            ,util = layui.util;//元素操作
+
+        //设置ajax请求完成后运行的函数
+        $.ajaxSetup({
+            complete:function(XMLHttpRequest){
+                if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    layer.msg('登录失效，将为您跳转到登录页重新登录',
+                        {
+                            icon: 5,
+                            time: 3000
+                        }, function(){
+                            win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                        });
+                }
+            }
+        });
+
+
+
+
+        $('#modifyPass').on('click',function(){
+
+            var template = $('#modifyPassTemplate').html();
+            layer.open({
+                type: 1,
+                title: '修改密码',
+                content: template,
+                btn: ['确定', '取消'],
+                offset: 'auto',
+                area: ['500px', '300px'],
+                // area: 'auto',
+                maxmin: true,
+                yes: function(index) {
+
+                    var oldPassword = $("#oldPassword").val();
+                    var newPassword = $("#newPassword").val();
+                    var rePassword = $("#rePassword").val();
+                    if(oldPassword.length < 6 || oldPassword.length > 20){
+                        layer.open({
+                            type: 4,
+                            shade: false,
+                            content: ['请输入6-20位', '#oldPassword'],
+                            time: 2500,
+                            tips: 2
+                        });
+                        return false;
+                    }
+                    if(newPassword.length < 6 || newPassword.length > 20){
+                        layer.open({
+                            type: 4,
+                            shade: false,
+                            content: ['请输入6-20位', '#newPassword'],
+                            time: 2500,
+                            tips: 2
+                        });
+                        return false;
+                    }
+                    if(newPassword == oldPassword){
+                        layer.open({
+                            type: 4,
+                            shade: false,
+                            content: ['新密码不能与原密码相同', '#newPassword'],
+                            time: 2500,
+                            tips: 2
+                        });
+                        return false;
+                    }
+                    if(rePassword != newPassword){
+                        layer.open({
+                            type: 4,
+                            shade: false,
+                            content: ['两次输入的密码不一致', '#rePassword'],
+                            time: 2500,
+                            tips: 2
+                        });
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=UTF-8",
+                        url: "/api/user/modifyPass",
+                        dateType:"json",
+                        data: JSON.stringify({
+                            oldPassword: oldPassword,
+                            newPassword: newPassword,
+                            rePassword: rePassword
+                        }),
+                        success : function(data) {
+                            if (0 == data.code){
+                                layer.close(index);
+                                layer.msg('修改成功',
+                                    {
+                                        icon: 1,
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                    });
+                            }else {
+                                layer.msg(data.msg,
+                                    {
+                                        icon: 2,
+                                        time: 3000
+                                    });
+                            }
+                        },
+                        error:function(){
+                            layer.close(index);
+                            layer.msg('亲，请求异常了……',
+                                {
+                                    icon: 5,
+                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                });
+                        }
+                    });
+                },
+                success: function(layero, index) {
+                    //弹出窗口成功后渲染表单
+                    form.render(null,'modifyPass-form');
+                }
+            });
+
+
+        });
+
+
+
+
+
+
+    });
+
+</script>
+</body>
+
+</html>

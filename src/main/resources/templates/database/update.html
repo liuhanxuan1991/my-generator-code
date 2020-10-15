@@ -1,0 +1,74 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <input type="text" name="id" value="${detail.id!}"  lay-verify="required" hidden/>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="dataSourceName" value="${detail.dataSourceName!}"  lay-verify="required"  placeholder="请输入数据库名称" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库url</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" value="${detail.url!}"  lay-verify="required"  placeholder="请输入数据库url" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库端口</label>
+            <div class="layui-input-block">
+                <input type="text" name="port" value="${detail.port!}"  lay-verify="number"  placeholder="请输入数据库端口" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" value="${detail.account!}"  lay-verify="required"  placeholder="请输入数据库账号" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="pwd"  value="${detail.pwd!}"  lay-verify="required"  placeholder="请输入数据库密码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">编码</label>
+            <div class="layui-input-block">
+                <#if detail.coding == 0>
+                <input type="radio" name="coding" lay-filter="coding" value="0" title="utf-8" checked />
+                <input type="radio" name="coding" lay-filter="coding" value="1" title="gbk" />
+                <#elseif detail.coding == 1>
+                <input type="radio" name="coding" lay-filter="coding" value="0" title="utf-8" />
+                <input type="radio" name="coding" lay-filter="coding" value="1" title="gbk" checked />
+                <#else>
+                <input type="radio" name="coding" lay-filter="coding" value="" title="未知" checked />
+            </#if>
+        </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+        <#if detail.isEnabled == 0>
+        <input type="radio" name="isEnabled" value="0" title="未启用" checked >
+        <input type="radio" name="isEnabled" value="1" title="已启用" />
+        <#elseif detail.isEnabled == 1>
+        <input type="radio" name="isEnabled" value="0" title="未启用" />
+        <input type="radio" name="isEnabled" value="1" title="已启用" checked />
+        <#else>
+        <input type="radio" name="isEnabled" value="" title="未知" checked />
+    </#if>
+</div>
+</div>
+
+
+<button lay-filter="update" lay-submit style="display: none;"></button>
+</form>
+</div>

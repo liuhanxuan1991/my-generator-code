@@ -1,0 +1,98 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="dataSourceName" value="${detail.dataSourceName!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库url</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" value="${detail.url!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库端口</label>
+            <div class="layui-input-block">
+                <input type="text" name="port" value="${detail.port!}" readonly="readonly" lay-verify="number" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" value="${detail.account!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="pwd"  value="${detail.pwd!}" readonly="readonly" lay-verify="pass" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">编码</label>
+            <div class="layui-input-block">
+                <#if detail.coding == 0>
+                    <input type="radio" name="coding" lay-filter="coding" value="0" title="utf-8" checked disabled/>
+                    <input type="radio" name="coding" lay-filter="coding" value="1" title="gbk" disabled/>
+                <#elseif detail.coding == 1>
+                    <input type="radio" name="coding" lay-filter="coding" value="0" title="utf-8" disabled/>
+                    <input type="radio" name="coding" lay-filter="coding" value="1" title="gbk" checked disabled/>
+                <#else>
+                    <input type="radio" name="coding" lay-filter="coding" value="" title="未知" checked disabled/>
+                </#if>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <#if detail.isEnabled == 0>
+                <input type="radio" name="isEnabled" value="0" title="未启用" checked disabled>
+                <input type="radio" name="isEnabled" value="1" title="已启用" disabled/>
+                <#elseif detail.isEnabled == 1>
+                <input type="radio" name="isEnabled" value="0" title="未启用" disabled/>
+                <input type="radio" name="isEnabled" value="1" title="已启用" checked disabled/>
+                <#else>
+                    <input type="radio" name="isEnabled" value="" title="未知" checked disabled/>
+                </#if>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="createTime" value="${(detail.createTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建人</label>
+            <div class="layui-input-block">
+                <input type="text" name="createUser" value="${detail.createUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateTime" value="${(detail.updateTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改人</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateUser" value="${detail.updateUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+    </form>
+</div>

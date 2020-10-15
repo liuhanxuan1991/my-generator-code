@@ -1,0 +1,54 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleName" value="${detail.roleName!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色key</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleKey" value="${detail.roleKey!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea name="remark" readonly="readonly" class="layui-textarea">${detail.remark!}</textarea>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="createTime" value="${(detail.createTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建人</label>
+            <div class="layui-input-block">
+                <input type="text" name="createUser" value="${detail.createUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateTime" value="${(detail.updateTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改人</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateUser" value="${detail.updateUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+    </form>
+</div>

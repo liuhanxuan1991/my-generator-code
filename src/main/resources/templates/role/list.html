@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/global.css" media="all">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/table.css"/>
+    <link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-form">
+            <div class="layui-input-inline">
+                <label class="layui-label">角色：</label>
+                <div class="layui-inline" >
+                    <select name="roleKey" id="roleKey" lay-verify="required" lay-search>
+                        <option value="">请选择角色</option>
+                        <#if roleList?? && (roleList?size>0)>
+                            <#list roleList as role>
+                                <#if (role.roleKey)?? >
+                                    <option value="${role.roleKey!}">${role.roleName!}</option>
+                                </#if>
+                            </#list>
+                        </#if>
+                     </select>
+                </div>
+            </div>
+
+            <div class="layui-input-inline" style="margin-left: 2%">
+                <button class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                <#if account.roleKey == 'super_admin' || account.roleKey == 'admin'>
+                    <button class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
+                </#if>
+            </div>
+
+        </div>
+    </blockquote>
+
+    <fieldset class="layui-elem-field">
+        <legend>角色列表</legend>
+        <div class="layui-field-box layui-form">
+            <table class="layui-hide" id="roleTable" lay-filter="barDemo"></table>
+            <script type="text/html" id="roleId">
+                <a href="#" class="layui-table-link" onclick="queryDetail('{{d.id}}');">{{d.roleName }}</a>
+            </script>
+            <script type="text/html" id="operationRole">
+                <#if account.roleKey == 'super_admin'>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-normal" onclick="queryPermission('{{d.roleKey}}','{{d.roleName}}');">查看权限</a>
+                    <a href="#" class="layui-btn layui-btn-xs"  onclick="updatePermission('{{d.roleKey}}','{{d.roleName}}');">编辑权限</a>
+                    <a href="#" class="layui-btn layui-btn-xs"  onclick="updateRole('{{d.id}}');">编辑角色</a>
+                    {{# if(d.roleKey == 'super_admin' || d.roleKey == 'admin'){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">删除角色</a>
+                    {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-warm" onclick="deleteRole('{{d.id}}');">删除角色</a>
+                    {{# } }}
+                <#else>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">查看权限</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">编辑权限</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">编辑角色</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">删除角色</a>
+                </#if>
+            </script>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="paged" class="page">
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- 查看权限-->
+<template id="detailTemplate" hidden>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <legend id="detailLegendText"></legend>
+            <div class="layui-field-box layui-form">
+                <ul id="treeDetail" class="ztree"></ul>
+            </div>
+        </fieldset>
+    </div>
+</template>
+
+<!-- 编辑权限-->
+<template id="editTemplate" hidden>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <legend id="editLegendText"></legend>
+            <div class="layui-field-box layui-form">
+                <ul id="treeCheck" class="ztree"></ul>
+            </div>
+        </fieldset>
+    </div>
+</template>
+
+<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
+<script type="text/javascript" src="/js/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/js/ztree/jquery.ztree.excheck.js"></script>
+<script>
+    layui.config({
+        base: '/js/'
+    });
+
+    $(function () {
+        //设置ajax请求完成后运行的函数
+        $.ajaxSetup({
+            complete:function(XMLHttpRequest){
+                if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    layer.msg('登录失效，将为您跳转到登录页重新登录',
+                        {
+                            icon: 5,
+                            time: 3000
+                        }, function(){
+                            win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                        });
+                }
+            }
+        });
+    });
+
+    layui.use([ 'form','laydate','laypage', 'table','util'], function () {
+
+
+        var laydate = layui.laydate //日期
+            ,$ = layui.jquery
+            ,laypage = layui.laypage //分页
+            ,table = layui.table //表格
+            ,upload = layui.upload //上传
+            ,element = layui.element
+            ,form = layui.form
+            ,util = layui.util;//元素操作
+
+            //设置ajax请求完成后运行的函数
+            $.ajaxSetup({
+                complete:function(XMLHttpRequest){
+                    if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                        var win = window;
+                        while(win != win.top){
+                            win = win.top;
+                        }
+                        layer.msg('登录失效，将为您跳转到登录页重新登录',
+                            {
+                                icon: 5,
+                                time: 3000
+                            }, function(){
+                                win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                            });
+                    }
+                }
+            });
+
+
+        $('#reset').on('click', function () {
+            roleKey.value = "";
+            form.render();
+        });
+
+        var tableData = {
+            elem: '#roleTable'
+            ,url: '/api/role/roleList' //数据接口
+            ,method: 'post'
+            ,page: true //开启分页
+            ,where: {
+                roleKey: roleKey.value
+            }
+            ,cols: [[ //表头
+                {title: '角色名',templet:'#roleId'}
+                ,{field: 'roleKey', title: '角色key'}
+                ,{field: 'createTime', title: '创建时间',templet:function (d) {
+                        return util.toDateString(d.createTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
+                ,{field: 'createUser', title: '创建人'}
+                ,{fixed: 'right',title: '操作', align:'left',minWidth:320,toolbar: '#operationRole'}
+            ]]
+        }
+
+        table.render(tableData);
+
+        $('#search').on('click', function () {
+            tableData.where = {
+                roleKey: roleKey.value
+            }
+            table.render(tableData);
+            return false;
+        });
+
+        $('#add').on('click', function () {
+            $.get("/api/role/addInit",{},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '新增角色',
+                    content: data,
+                    btn: ['确定', '取消'],
+                    offset: 'auto',
+                    area: ['600px', '450px'],
+                    // area: 'auto',
+                    maxmin: true,
+                    yes: function(index) {
+                        //触发表单的提交事件
+                        $('form.layui-form').find('button[lay-filter=add]').click();
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(add)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/role/addRole",
+                                dateType:"json",
+                                data:data.field,
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('添加成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+
+                    }
+                });
+
+            })
+
+        });
+
+
+        window.renderTableData = function () {//外部调用
+            table.render(tableData);
+        }
+
+
+    });
+
+    //查询详情
+    function queryDetail(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/role/queryDetailById",{id:id,type:1},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '角色详情',
+                    content: data,
+                    btn: ['确定'],
+                    btnAlign: 'c',//按钮居中
+                    // shade: false, //遮罩
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    maxmin: true,
+                    yes: function(index) {
+                        layer.close(index);
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                    }
+                });
+            })
+        });
+
+    };
+
+
+
+    //查看权限
+    function queryPermission(roleKey,name) {
+        layui.use('form', function(){
+            var form = layui.form;
+            var template = $('#detailTemplate').html();
+            layer.open({
+                type: 1,
+                title: '角色详情',
+                content: template,
+                btn: ['确定'],
+                btnAlign: 'c',//按钮居中
+                offset: ['100px', '30%'],
+                area: ['600px', '450px'],
+                maxmin: true,
+                yes: function(index) {
+                    layer.close(index);
+                },
+                success: function(layero, index) {
+                    detailLegendText.innerText = name + "--权限列表";
+                    var setting = {
+                        view: {
+                            // 禁止同时选中多个节点
+                            selectedMulti: false
+                        },
+                        async: {
+                            enable: true,
+                            url:"/api/role/queryPermission",
+                            otherParam:{"roleKey": roleKey},
+                        },
+                        data: {
+                            simpleData: {
+                                enable: true,
+                                idKey: "id",
+                                pIdKey: "parentId",
+                                rootPId: 0
+                            }
+                        }
+                    };
+                    $(document).ready(function(){
+                        $.fn.zTree.init($("#treeDetail"), setting);
+                    });
+                    form.render();
+                }
+            });
+        });
+
+    };
+
+
+    //编辑权限
+    function updatePermission(roleKey,name) {
+        layui.use('form', function(){
+            var form = layui.form;
+            var template = $('#editTemplate').html();
+            layer.open({
+                type: 1,
+                title: '编辑角色',
+                content: template,
+                btn: ['确定','取消'],
+                offset: ['100px', '30%'],
+                area: ['600px', '450px'],
+                maxmin: true,
+                yes: function(index) {
+                    //获取选中的表名
+                    var zTree = $.fn.zTree.getZTreeObj("treeCheck");
+                    var nodes = zTree.getCheckedNodes(true);
+                    var ids = new Array();
+                    for (var i = 0; i< nodes.length; i++) {
+                        ids.push(nodes[i].id);
+                    }
+                    $.ajax({
+                        type:"post",
+                        url:"/api/role/updatePermission",
+                        dateType:"json",
+                        data:{roleKey:roleKey,ids:ids},
+                        traditional: true,
+                        success:function(result){
+                            if (0 == result.code){
+                                layer.close(index);
+                                layer.msg('修改成功',
+                                    {
+                                        icon: 1,
+                                        time: 2000
+                                    });
+                                renderTableData();//刷新表单
+                            }else {
+                                layer.msg(result.msg,
+                                    {
+                                        icon: 2,
+                                        time: 2000
+                                    });
+                            }
+                        }, error: function () {
+                            layer.msg('亲，请求异常了……', {
+                                icon: 5,
+                                time: 2000
+                            });
+                        }
+                    });
+                    layer.close(index);
+                },
+                success: function(layero, index) {
+                    editLegendText.innerText = name + "--权限列表";
+                    var setting = {
+                        view: {
+                            // 禁止同时选中多个节点
+                            selectedMulti: false
+                        },
+                        async: {
+                            enable: true,
+                            url:"/api/role/queryForUpdate",
+                            otherParam:{"roleKey": roleKey},
+                        },
+                        data: {
+                            simpleData: {
+                                enable: true,
+                                idKey: "id",
+                                pIdKey: "parentId",
+                                rootPId: 0
+                            }
+                        },
+                        check: {
+                            enable: true,
+                                chkboxType: { "Y" : "ps", "N" : "ps" }
+                        }
+                    };
+                    $(document).ready(function(){
+                        $.fn.zTree.init($("#treeCheck"), setting);
+                    });
+                    form.render();
+                }
+            });
+        });
+
+    };
+
+
+
+    //修改角色
+    function updateRole(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/role/queryDetailById",{id:id,type:2},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '修改角色信息',
+                    content: data,
+                    btn: ['修改','取消'],
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    maxmin: true,
+                    yes: function(index) {
+                        layer.confirm('确定修改吗？', {icon: 3, title:'提示'}, function(thisIndex){
+                            $('form.layui-form').find('button[lay-filter=update]').click();
+                            layer.close(thisIndex);
+                        });
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(update)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/role/updateRole",
+                                dateType:"json",
+                                data:data.field,
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('修改成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+                    }
+                });
+            })
+        });
+    }
+
+
+    //删除
+    function deleteRole(id) {
+        layer.confirm('删除角色后，拥有该角色的账号将无法看到所对应的菜单，确定删除吗？', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                type:"get",
+                url:"/api/role/deleteRole",
+                dateType:"json",
+                data:{id:id},
+                success:function(result){
+                    renderTableData();//刷新表单
+                    if (0 == result.code){
+                        layer.msg('删除成功',
+                            {
+                                icon: 1,
+                                time: 2000
+                            });
+                    }else {
+                        layer.msg('删除失败',
+                            {
+                                icon: 2,
+                                time: 2000
+                            });
+                    }
+                }, error: function () {
+                    layer.msg('亲，请求异常了……', {
+                        icon: 5,
+                        time: 2000
+                    });
+                }
+            });
+            layer.close(index);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    }
+
+
+</script>
+</body>
+
+</html>

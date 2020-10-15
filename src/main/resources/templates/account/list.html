@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>账号管理</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/global.css" media="all">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/table.css"/>
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-form">
+            <div class="layui-input-inline">
+                <label class="layui-label">账号或用户名：</label>
+                <div class="layui-inline" >
+                    <input type="text" name="account" id="account" placeholder="请输入账号或用户名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-input-inline">
+                <label class="layui-label">状态：</label>
+                <div class="layui-inline" >
+                    <select name="status" id="STATUS" style="padding: 0px 20px;">
+                        <option value="">请选择</option>
+                        <option value="false">正常</option>
+                        <option value="true">失效</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-input-inline">
+                <label class="layui-label">注册日期：</label>
+                <div class="layui-inline">
+                    <div class="layui-input-inline" >
+                        <input class="layui-input" name="startTime" placeholder="开始日期" id="LAY_demorange_s" />
+                    </div>
+                    <div class="layui-input-inline">
+                        &nbsp;-&nbsp;
+                    </div>
+                    <div class="layui-input-inline" >
+                        <input class="layui-input" name="endTime" placeholder="截止日期" id="LAY_demorange_e" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-input-inline" style="margin-left: 2%">
+                <button class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                <#if account.roleKey == 'super_admin' || account.roleKey == 'admin'>
+                    <button class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
+                </#if>
+            </div>
+
+        </div>
+    </blockquote>
+
+    <fieldset class="layui-elem-field">
+        <legend>用户列表</legend>
+        <div class="layui-field-box layui-form">
+            <table class="layui-hide" id="userTable" lay-filter="barDemo"></table>
+            <script type="text/html" id="operationUser">
+                <a href="#" class="layui-btn layui-btn-xs layui-btn-normal" onclick="queryDetail('{{d.id}}');">查看</a>
+                <#if account.roleKey == 'super_admin'>
+                    <a href="#" class="layui-btn layui-btn-xs"  onclick="update('{{d.id}}');">编辑</a>
+                    {{# if(d.roleKey == 'super_admin'){ }}
+                        {{# if(d.status == false){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">禁用</a>
+                        {{# } else if(d.status == true) { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">启用</a>
+                        {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                        {{# } }}
+                    {{# } else { }}
+                        {{# if(d.status == false){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-warm"  onclick="forbidden('{{d.id}}');">禁用</a>
+                        {{# } else if(d.status == true) { }}
+                        <a href="#" class="layui-btn layui-btn-xs"  onclick="startUsing('{{d.id}}');">启用</a>
+                        {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                        {{# } }}
+                    {{# } }}
+                <#elseif account.roleKey == 'admin'>
+                    {{# if(d.roleKey == 'super_admin'){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
+                        {{# if(d.status == false){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">禁用</a>
+                        {{# } else if(d.status == true) { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">启用</a>
+                        {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                        {{# } }}
+                    {{# } else if(d.roleKey == 'admin') { }}
+                        <a href="#" class="layui-btn layui-btn-xs"  onclick="update('{{d.id}}');">编辑</a>
+                        {{# if(d.status == false){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">禁用</a>
+                        {{# } else if(d.status == true) { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">启用</a>
+                        {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                        {{# } }}
+                    {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs"  onclick="update('{{d.id}}');">编辑</a>
+                        {{# if(d.status == false){ }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-warm"  onclick="forbidden('{{d.id}}');">禁用</a>
+                        {{# } else if(d.status == true) { }}
+                        <a href="#" class="layui-btn layui-btn-xs"  onclick="startUsing('{{d.id}}');">启用</a>
+                        {{# } else { }}
+                        <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                        {{# } }}
+                    {{# } }}
+
+                <#else>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
+                    {{# if(d.status == false){ }}
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">禁用</a>
+                    {{# } else if(d.status == true) { }}
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">启用</a>
+                    {{# } else { }}
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">😨</a>
+                    {{# } }}
+                </#if>
+
+                <!--<a href="#" class="layui-btn layui-btn-xs layui-btn-danger" onclick="deleteData('{{d.id}}')">删除</a>-->
+            </script>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="paged" class="page">
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
+<script>
+    layui.config({
+        base: '/js/'
+    });
+
+    $(function () {
+        //设置ajax请求完成后运行的函数
+        $.ajaxSetup({
+            complete:function(XMLHttpRequest){
+                if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    layer.msg('登录失效，将为您跳转到登录页重新登录',
+                        {
+                            icon: 5,
+                            time: 3000
+                        }, function(){
+                            win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                        });
+                }
+            }
+        });
+    });
+
+    layui.use([ 'form','laydate','laypage', 'table','util'], function () {
+
+
+        var laydate = layui.laydate //日期
+            ,$ = layui.jquery
+            ,laypage = layui.laypage //分页
+            ,table = layui.table //表格
+            ,upload = layui.upload //上传
+            ,element = layui.element
+            ,form = layui.form
+            ,util = layui.util;//元素操作
+
+            //设置ajax请求完成后运行的函数
+            $.ajaxSetup({
+                complete:function(XMLHttpRequest){
+                    if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                        var win = window;
+                        while(win != win.top){
+                            win = win.top;
+                        }
+                        layer.msg('登录失效，将为您跳转到登录页重新登录',
+                            {
+                                icon: 5,
+                                time: 3000
+                            }, function(){
+                                win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                            });
+                    }
+                }
+            });
+
+
+
+
+        var start = {
+            max: '2099-06-16 23:59:59',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            type: 'datetime',
+            show: true
+            ,done: function(value){
+                end.min = value; //开始日选好后，重置结束日的最小日期
+                end.start = value //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            max: '2099-06-16 23:59:59',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            type: 'datetime',
+            show: true
+            ,done: function(value){
+                start.max = value; //结束日选好后，重置开始日的最大日期
+            }
+        };
+
+        $('#LAY_demorange_s').on('click',function (){
+            start.elem = this;
+            start.closeStop = this
+            laydate.render(start);
+        });
+        $('#LAY_demorange_e').on('click',function (){
+            end.elem = this;
+            end.closeStop = this
+            laydate.render(end);
+        });
+
+        $('#reset').on('click', function () {
+            account.value = "";
+            LAY_demorange_s.value = "";
+            STATUS.value = "";
+            LAY_demorange_e.value = "";
+            start.max =  '2099-06-16 23:59:59';
+            end.min = '1977-06-16 23:59:59';
+            end.start = '1977-06-16 23:59:59';
+            form.render();
+        });
+
+        var tableData = {
+            elem: '#userTable'
+            ,url: '/api/account/accountList' //数据接口
+            ,method: 'post'
+            ,page: true //开启分页
+            ,where: {
+                account: account.value,
+                status: STATUS.value,
+                startTime: LAY_demorange_s.value,
+                endTime: LAY_demorange_e.value
+            }
+            ,cols: [[ //表头
+                {field: 'account', title: '账号'}
+                ,{field: 'name', title: '用户名'}
+                ,{field: 'roleName', title: '角色'}
+                ,{field: 'status', title: '状态',templet:function(d){
+                        if(d.status == false){
+                            return "<label style='color: green'>正常</label>";
+                        }else if(d.status == true){
+                            return "<label style='color: red'>失效</label>";
+                        }else{
+                            return "<label style='color: yellow'>未知</label>";
+                        }
+                    }}
+                ,{field: 'createTime', title: '创建时间',templet:function (d) {
+                        return util.toDateString(d.createTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
+                ,{field: 'createUser', title: '创建人'}
+                ,{fixed: 'right',title: '操作', align:'left', minWidth: 200,toolbar: '#operationUser'}
+            ]]
+        }
+
+        table.render(tableData);
+
+        $('#search').on('click', function () {
+            tableData.where = {
+                account: account.value,
+                status: STATUS.value,
+                startTime: LAY_demorange_s.value,
+                endTime: LAY_demorange_e.value
+            }
+            table.render(tableData);
+            return false;
+        });
+
+        $('#add').on('click', function () {
+            $.get("/api/account/addInit",{},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '新增帐号',
+                    content: data,
+                    btn: ['确定', '取消'],
+                    offset: 'auto',
+                    area: ['600px', '450px'],
+                    // area: 'auto',
+                    maxmin: true,
+                    yes: function(index) {
+                        //触发表单的提交事件
+                        $('form.layui-form').find('button[lay-filter=add]').click();
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(add)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/account/addAccount",
+                                contentType: "application/json;charset=UTF-8",
+                                dateType:"json",
+                                data:JSON.stringify(data.field),
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('添加成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+
+                    }
+                });
+
+            })
+
+        });
+
+
+        window.renderTableData = function () {//外部调用
+            table.render(tableData);
+        }
+
+
+    });
+
+    //查询详情
+    function queryDetail(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/account/queryDetailById",{id:id,type:1},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '用户详情',
+                    content: data,
+                    btn: ['确定'],
+                    btnAlign: 'c',//按钮居中
+                    // shade: false, //遮罩
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    // zIndex: 19950924,
+                    maxmin: true,
+                    yes: function(index) {
+                        layer.close(index);
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                    }
+                });
+            })
+        });
+
+    };
+
+    //修改
+    function update(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/account/queryDetailById",{id:id,type:2},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '修改用户信息',
+                    content: data,
+                    btn: ['修改','取消'],
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    maxmin: true,
+                    yes: function(index) {
+                        //触发表单的提交事件
+                        $('form.layui-form').find('button[lay-filter=update]').click();
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(update)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/account/updateAccount",
+                                contentType: "application/json;charset=UTF-8",
+                                dateType:"json",
+                                data:JSON.stringify(data.field),
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('修改成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+                    }
+                });
+            })
+        });
+    }
+
+
+    //启用
+    function startUsing(id) {
+        layer.confirm('确定启用吗？', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                type:"get",
+                url:"/api/account/startUsing",
+                dateType:"json",
+                data:{id:id},
+                success:function(result){
+                    renderTableData();//刷新表单
+                    if (0 == result.code){
+                        layer.msg('启用成功',
+                            {
+                                icon: 1,
+                                time: 2000
+                            });
+                    }else {
+                        layer.msg('启用失败',
+                            {
+                                icon: 2,
+                                time: 2000
+                            });
+                    }
+                }, error: function () {
+                    layer.msg('亲，请求异常了……', {
+                        icon: 5,
+                        time: 2000
+                    });
+                }
+            });
+            layer.close(index);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    }
+
+
+    //禁用
+    function forbidden(id) {
+        layer.confirm('确定禁用吗？', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                type:"get",
+                url:"/api/account/forbidden",
+                dateType:"json",
+                data:{id:id},
+                success:function(result){
+                    renderTableData();//刷新表单
+                    if (0 == result.code){
+                        layer.msg('禁用成功',
+                            {
+                                icon: 1,
+                                time: 2000
+                            });
+                    }else {
+                        layer.msg('禁用失败',
+                            {
+                                icon: 2,
+                                time: 2000
+                            });
+                    }
+                }, error: function () {
+                    layer.msg('亲，请求异常了……', {
+                        icon: 5,
+                        time: 2000
+                    });
+                }
+            });
+            layer.close(index);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    }
+
+
+   /* //删除
+    function deleteData(id) {
+        layer.confirm('确定删除吗？', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                type:"get",
+                url:"/api/database/delete",
+                dateType:"json",
+                data:{id:id},
+                success:function(result){
+                    renderTableData();//刷新表单
+                    if (0 == result.code){
+                        layer.msg('删除成功',
+                            {
+                                icon: 1,
+                                time: 2000
+                            });
+                    }else {
+                        layer.msg('删除失败',
+                            {
+                                icon: 2,
+                                time: 2000
+                            });
+                    }
+                }, error: function () {
+                    layer.msg('亲，请求异常了……', {
+                        icon: 5,
+                        time: 2000
+                    });
+                }
+            });
+            layer.close(index);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    }*/
+
+
+</script>
+</body>
+
+</html>

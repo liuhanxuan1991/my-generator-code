@@ -1,0 +1,41 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block">
+                <input type="text" name="icon" lay-verify="required" placeholder="请输入图标" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="href" placeholder="请输入链接" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="parentId" lay-verify="required"  placeholder="请输入父节点ID" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="rank" lay-verify="required"  placeholder="请输入排序优先级（值越低优先级越高）" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <button lay-filter="add" lay-submit style="display: none;"></button>
+    </form>
+</div>

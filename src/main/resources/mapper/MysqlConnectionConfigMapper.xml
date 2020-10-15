@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.study.mygeneratorcode.dao.MysqlConnectionConfigMapper">
+    <!--返回模型-->
+    <resultMap id="BaseResultMap" type="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="port" jdbcType="INTEGER" property="port" />
+        <result column="data_source_name" jdbcType="VARCHAR" property="dataSourceName" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+        <result column="coding" jdbcType="INTEGER" property="coding" />
+        <result column="is_enabled" jdbcType="INTEGER" property="isEnabled" />
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+        <result column="create_by" jdbcType="INTEGER" property="createBy" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, url, port, data_source_name, account, pwd, coding, is_enabled, delete_flag, create_by, create_time, update_by, update_time
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_connection_config
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 根据实体查询单条 -->
+    <select id="selectByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_connection_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="url != null" >
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="port != null" >
+            and port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceName != null" >
+            and data_source_name = #{dataSourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="account != null" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="pwd != null" >
+            and pwd = #{pwd,jdbcType=VARCHAR}
+        </if>
+        <if test="coding != null" >
+            and coding = #{coding,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询多条 -->
+    <select id="selectByEntityList" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mysql_connection_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="url != null" >
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="port != null" >
+            and port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceName != null" >
+            and data_source_name = #{dataSourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="account != null" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="pwd != null" >
+            and pwd = #{pwd,jdbcType=VARCHAR}
+        </if>
+        <if test="coding != null" >
+            and coding = #{coding,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <!-- 根据实体查询ID -->
+    <select id="selectById" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_connection_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="url != null" >
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="port != null" >
+            and port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceName != null" >
+            and data_source_name = #{dataSourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="account != null" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="pwd != null" >
+            and pwd = #{pwd,jdbcType=VARCHAR}
+        </if>
+        <if test="coding != null" >
+            and coding = #{coding,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 根据实体查询IDs-->
+    <select id="selectByIds" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig" resultType="java.lang.Integer">
+        select
+        id
+        from mysql_connection_config
+        where 1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="url != null" >
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="port != null" >
+            and port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceName != null" >
+            and data_source_name = #{dataSourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="account != null" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="pwd != null" >
+            and pwd = #{pwd,jdbcType=VARCHAR}
+        </if>
+        <if test="coding != null" >
+            and coding = #{coding,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from mysql_connection_config where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <!--  插入单条记录（字段为空则不添加）  -->
+    <insert id="insertSelective" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into mysql_connection_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="url != null">
+                url,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="dataSourceName != null">
+                data_source_name,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="pwd != null">
+                pwd,
+            </if>
+            <if test="coding != null">
+                coding,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="deleteFlag != null" >
+                delete_flag,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateBy != null" >
+                update_by,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceName != null">
+                #{dataSourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="coding != null">
+                #{coding,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="createBy != null" >
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </trim>
+    </insert>
+    <!-- 根据主键修改  -->
+    <update id="updateByPrimaryKey" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig">
+        update mysql_connection_config
+        <set>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceName != null">
+                data_source_name = #{dataSourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                pwd = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="coding != null">
+                coding = #{coding,jdbcType=INTEGER},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null" >
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="createBy != null" >
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--批量插入-->
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+        insert into mysql_connection_config (
+        url, port, data_source_name, account, pwd, coding, is_enabled, delete_flag, create_by, create_time, update_by, update_time
+
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.url,jdbcType=VARCHAR},
+            #{item.port,jdbcType=INTEGER},
+            #{item.dataSourceName,jdbcType=VARCHAR},
+            #{item.account,jdbcType=VARCHAR},
+            #{item.pwd,jdbcType=VARCHAR},
+            #{item.coding,jdbcType=INTEGER},
+            #{item.isEnabled,jdbcType=INTEGER},
+            #{item.deleteFlag,jdbcType=BIT},
+            #{item.createBy,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateBy,jdbcType=INTEGER},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <!--批量修改-->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            update mysql_connection_config
+            set
+            url = #{item.url,jdbcType=VARCHAR},
+            port = #{item.port,jdbcType=INTEGER},
+            data_source_name = #{item.dataSourceName,jdbcType=VARCHAR},
+            account = #{item.account,jdbcType=VARCHAR},
+            pwd = #{item.pwd,jdbcType=VARCHAR},
+            coding = #{item.coding,jdbcType=INTEGER},
+            is_enabled = #{item.isEnabled,jdbcType=INTEGER},
+            delete_flag = #{item.deleteFlag,jdbcType=BIT},
+            create_by = #{item.createBy,jdbcType=INTEGER},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP}
+            update_by = #{item.updateBy,jdbcType=INTEGER},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP}
+            where id = #{id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <!--根据主键批量删除-->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from mysql_connection_config where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--根据某些条件删除-->
+    <delete id="deleteByEntity" parameterType="com.lhx.study.mygeneratorcode.entity.po.MysqlConnectionConfig">
+        delete from mysql_connection_config where  1 = 1
+        <if test="id != null" >
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="url != null" >
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="port != null" >
+            and port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceName != null" >
+            and data_source_name = #{dataSourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="account != null" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="pwd != null" >
+            and pwd = #{pwd,jdbcType=VARCHAR}
+        </if>
+        <if test="coding != null" >
+            and coding = #{coding,jdbcType=INTEGER}
+        </if>
+        <if test="isEnabled != null" >
+            and is_enabled = #{isEnabled,jdbcType=INTEGER}
+        </if>
+        <if test="deleteFlag != null" >
+            and delete_flag = #{deleteFlag,jdbcType=BIT}
+        </if>
+        <if test="createBy != null" >
+            and create_by = #{createBy,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateBy != null" >
+            and update_by = #{updateBy,jdbcType=INTEGER}
+        </if>
+        <if test="updateTime != null" >
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </delete>
+
+    <select id="dataBaseListPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from mysql_connection_config
+        <where>
+                and delete_flag = 0
+            <if test="!flag">
+                and create_by = #{userId,jdbcType=INTEGER}
+            </if>
+            <if test="name != null and name !=''">
+                and data_source_name like CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != null">
+                and is_enabled = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="startTime != null and startTime !=''">
+                and create_time &gt;= str_to_date(#{startTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endTime != null and endTime !=''">
+                and create_time &lt;= str_to_date(#{endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
+
+    <select id="dataBases" resultType="com.lhx.study.mygeneratorcode.vo.response.database.DataBasesResVo">
+        select id as id, data_source_name as dataSourceName
+        from mysql_connection_config
+        <where>
+            and delete_flag = 0
+            and is_enabled = 1
+            <if test="!flag">
+                and create_by = #{userId,jdbcType=INTEGER}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
+
+    <select id="queryDataBaseById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from mysql_connection_config
+        <where>
+            and id = #{id,jdbcType=INTEGER}
+            <if test="!flag">
+                and create_by = #{userId,jdbcType=INTEGER}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>

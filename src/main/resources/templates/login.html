@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>登录</title>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="/css/login.css" />
+	</head>
+
+	<body class="beg-login-bg">
+		<div class="beg-login-box">
+			<header>
+				<h1 align="center" style="color: #0ebb9d;font-size: xx-large;font-weight: bold;text-shadow: 2px 2px 5px #333;">源 计 划 登 录</h1>
+			</header>
+			<div class="beg-login-main">
+				<form action="/doLogin" class="layui-form" method="post">
+					<div class="layui-form-item">
+						<label class="beg-login-icon">
+                        <i class="layui-icon">&#xe612;</i>
+                    	</label>
+						<input type="text" name="account" lay-verify="required" value="" autocomplete="off" placeholder="这里输入登录名" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label class="beg-login-icon">
+                        <i class="layui-icon">&#xe642;</i>
+                    	</label>
+						<input type="password" name="pwd" lay-verify="required" value="" autocomplete="off" placeholder="这里输入密码" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-inline">
+							<label class="beg-login-icon">
+								<i class="layui-icon">&#x1005;</i>
+							</label>
+							<input type="text" name="code" class="layui-input" lay-verify="required" placeholder="验证码"/>
+						</div>
+						<img src="/validateCode" onclick="getImage()" title="单击刷新验证码" id="img_rand_code" alt="验证码">
+					</div>
+					<div class="layui-form-item">
+						<div class="beg-pull-right">
+							<button class="layui-btn" lay-submit lay-filter="login" style="width: 120px;">登录</button>
+						</div>
+						<div class="beg-clear"></div>
+					</div>
+				</form>
+				<div style="color: #DC143C;text-align: center; margin-top: -3%;">
+					<#if msg??>${msg}</#if>
+				</div>
+			</div>
+			<footer>
+				<p align="center">源计划 © www.xxx.com</p>
+			</footer>
+		</div>
+		<script type="text/javascript" src="/layui/layui.js"></script>
+		<script type="application/javascript">//防止session失效后，登录页嵌套
+            if(self.location!=top.location)
+            {
+                top.location = self.location;
+            }
+		</script>
+		<script>
+			layui.use(['layer', 'form'], function() {
+			});
+
+            // 刷新图片
+            function getImage() {
+                var imgSrc = $("#img_rand_code");
+                var src = "/validateCode";
+                imgSrc.attr("src", changeUrl(src));
+            }
+            //为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+            function changeUrl(url) {
+                var timestamp = (new Date()).valueOf();
+                var index = url.indexOf("?",url);
+                if (index > 0) {
+                    url = url.substring(0, url.indexOf(url, "?"));
+                }
+                if ((url.indexOf("&") >= 0)) {
+                    url = url + "×tamp=" + timestamp;
+                } else {
+                    url = url + "?timestamp=" + timestamp;
+                }
+                return url;
+            }
+
+		</script>
+	</body>
+
+</html>

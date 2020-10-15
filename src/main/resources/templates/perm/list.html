@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/global.css" media="all">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/table.css"/>
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-form">
+            <div class="layui-input-inline">
+                <label class="layui-label">菜单：</label>
+                <div class="layui-inline" >
+                    <select name="menu" id="menu" lay-verify="required" lay-search>
+                        <option value="">请选择菜单</option>
+                        <#if menuList?? && (menuList?size>0)>
+                            <#list menuList as menu>
+                                <#if (menu.title)?? >
+                                    <option value="${menu.id!}">${menu.title!}</option>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-input-inline" style="margin-left: 2%">
+                <button class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                <#if account.roleKey == 'super_admin'>
+                    <button class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
+                </#if>
+            </div>
+
+        </div>
+    </blockquote>
+
+    <fieldset class="layui-elem-field">
+        <legend>菜单列表</legend>
+        <div class="layui-field-box layui-form">
+            <table class="layui-hide" id="menuTable" lay-filter="barDemo"></table>
+            <script type="text/html" id="operationMenu">
+                <#if account.roleKey == 'super_admin'>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-normal" onclick="queryDetail('{{d.id}}');">查看</a>
+                    <a href="#" class="layui-btn layui-btn-xs"  onclick="update('{{d.id}}');">编辑</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-warm" onclick="deleteData('{{d.id}}');">删除</a>
+                <#else>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">查看</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
+                    <a href="#" class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
+                </#if>
+            </script>
+        </div>
+    </fieldset>
+    <div class="admin-table-page">
+        <div id="paged" class="page">
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
+<script>
+    layui.config({
+        base: '/js/'
+    });
+
+    $(function () {
+        //设置ajax请求完成后运行的函数
+        $.ajaxSetup({
+            complete:function(XMLHttpRequest){
+                if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    layer.msg('登录失效，将为您跳转到登录页重新登录',
+                        {
+                            icon: 5,
+                            time: 3000
+                        }, function(){
+                            win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                        });
+                }
+            }
+        });
+    });
+
+    layui.use([ 'form','laydate','laypage', 'table','util'], function () {
+
+
+        var laydate = layui.laydate //日期
+            ,$ = layui.jquery
+            ,laypage = layui.laypage //分页
+            ,table = layui.table //表格
+            ,upload = layui.upload //上传
+            ,element = layui.element
+            ,form = layui.form
+            ,util = layui.util;//元素操作
+
+            //设置ajax请求完成后运行的函数
+            $.ajaxSetup({
+                complete:function(XMLHttpRequest){
+                    if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                        var win = window;
+                        while(win != win.top){
+                            win = win.top;
+                        }
+                        layer.msg('登录失效，将为您跳转到登录页重新登录',
+                            {
+                                icon: 5,
+                                time: 3000
+                            }, function(){
+                                win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                            });
+                    }
+                }
+            });
+
+
+        $('#reset').on('click', function () {
+            perm.value = "";
+            form.render();
+        });
+
+        var tableData = {
+            elem: '#menuTable'
+            ,url: '/api/menu/menuList' //数据接口
+            ,method: 'post'
+            ,page: true //开启分页
+            ,where: {
+                id: menu.value
+            }
+            ,cols: [[ //表头
+                 {field: 'id', title: 'id'}
+                ,{field: 'title', title: '名称'}
+                ,{field: 'href', title: '链接'}
+                ,{field: 'parentId', title: '父节点ID'}
+                ,{field: 'rank', title: '排序（越低越靠前）'}
+                ,{field: 'createTime', title: '创建时间',templet:function (d) {
+                        return util.toDateString(d.createTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
+                ,{field: 'createUser', title: '创建人'}
+                ,{fixed: 'right',title: '操作', align:'left',minWidth:200,toolbar: '#operationMenu'}
+            ]]
+        }
+
+        table.render(tableData);
+
+        $('#search').on('click', function () {
+            tableData.where = {
+                id: menu.value
+            }
+            table.render(tableData);
+            return false;
+        });
+
+        $('#add').on('click', function () {
+            $.get("/api/menu/addInit",{},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '新增菜单',
+                    content: data,
+                    btn: ['确定', '取消'],
+                    offset: 'auto',
+                    area: ['600px', '450px'],
+                    // area: 'auto',
+                    maxmin: true,
+                    yes: function(index) {
+                        //触发表单的提交事件
+                        $('form.layui-form').find('button[lay-filter=add]').click();
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(add)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/menu/addMenu",
+                                contentType: "application/json;charset=UTF-8",
+                                dateType:"json",
+                                data:JSON.stringify(data.field),
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('添加成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+
+                    }
+                });
+
+            })
+
+        });
+
+
+        window.renderTableData = function () {//外部调用
+            table.render(tableData);
+        }
+
+
+    });
+
+    //查询详情
+    function queryDetail(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/menu/queryDetailById",{id:id,type:1},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '权限详情',
+                    content: data,
+                    btn: ['确定'],
+                    btnAlign: 'c',//按钮居中
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    maxmin: true,
+                    yes: function(index) {
+                        layer.close(index);
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                    }
+                });
+            })
+        });
+
+    };
+
+
+    //修改
+    function update(id) {
+        layui.use('form', function(){
+            var form = layui.form;
+            $.get("/api/menu/queryDetailById",{id:id,type:2},function (data) {
+                layer.open({
+                    type: 1,
+                    title: '修改菜单信息',
+                    content: data,
+                    btn: ['修改','取消'],
+                    offset: ['100px', '30%'],
+                    area: ['600px', '450px'],
+                    maxmin: true,
+                    yes: function(index) {
+                        layer.confirm('确定修改吗？', {icon: 3, title:'提示'}, function(thisIndex){
+                            $('form.layui-form').find('button[lay-filter=update]').click();
+                            layer.close(thisIndex);
+                        });
+                    },
+                    success: function(layero, index) {
+                        form.render();
+                        form.on('submit(update)', function(data) {
+                            $.ajax({
+                                type:"post",
+                                url:"/api/menu/updateMenu",
+                                contentType: "application/json;charset=UTF-8",
+                                dateType:"json",
+                                data:JSON.stringify(data.field),
+                                success:function(result){
+                                    if (0 == result.code){
+                                        layer.close(index);
+                                        layer.msg('修改成功',
+                                            {
+                                                icon: 1,
+                                                time: 2000
+                                            });
+                                        renderTableData();//刷新表单
+                                    }else {
+                                        layer.msg(result.msg,
+                                            {
+                                                icon: 2,
+                                                time: 2000
+                                            });
+                                    }
+                                }, error: function () {
+                                    layer.msg('亲，请求异常了……', {
+                                        icon: 5,
+                                        time: 2000
+                                    });
+                                }
+                            });
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+                    }
+                });
+            })
+        });
+    };
+
+
+    //删除
+    function deleteData(id) {
+        layer.confirm('删除菜单后，拥有该权限的账号将无法看到该菜单，确定删除吗？', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                type:"get",
+                url:"/api/menu/deleteMenu",
+                dateType:"json",
+                data:{id:id},
+                success:function(result){
+                    renderTableData();//刷新表单
+                    if (0 == result.code){
+                        layer.msg('删除成功',
+                            {
+                                icon: 1,
+                                time: 2000
+                            });
+                    }else {
+                        layer.msg('删除失败',
+                            {
+                                icon: 2,
+                                time: 2000
+                            });
+                    }
+                }, error: function () {
+                    layer.msg('亲，请求异常了……', {
+                        icon: 5,
+                        time: 2000
+                    });
+                }
+            });
+            layer.close(index);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    }
+
+
+</script>
+</body>
+
+</html>

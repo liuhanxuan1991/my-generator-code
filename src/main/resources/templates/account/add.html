@@ -1,0 +1,51 @@
+<div style="margin: 15px;">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" lay-verify="required"  placeholder="请输入账号" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required"  placeholder="请输入用户名" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="pwd" lay-verify="required"  placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="false" title="正常" checked >
+                <input type="radio" name="status" value="true" title="失效" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-block">
+                <select name="roleKey" id="roleKey" style="padding: 0px 20px;" lay-verify="required">
+                    <option value="">请选择角色</option>
+                    <#if roleList?? && (roleList?size>0)>
+                        <#list roleList as role>
+                            <#if (role.roleKey)?? >
+                                <option value="${role.roleKey!}">${role.roleName!}</option>
+                            </#if>
+                        </#list>
+                    </#if>
+                </select>
+            </div>
+        </div>
+
+        <button lay-filter="add" lay-submit style="display: none;"></button>
+    </form>
+</div>

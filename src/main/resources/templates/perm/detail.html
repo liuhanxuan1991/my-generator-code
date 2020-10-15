@@ -1,0 +1,74 @@
+<div style="margin: 15px;" xmlns="http://www.w3.org/1999/html">
+    <form class="layui-form" >
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" value="${detail.id!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" value="${detail.title!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block">
+                <i class="layui-icon" style="font-size: 30px;">${detail.icon!}</i>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="href" value="${detail.href!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="parentId" value="${detail.parentId!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="rank" value="${detail.rank!}" readonly="readonly" lay-verify="required" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="createTime" value="${(detail.createTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建人</label>
+            <div class="layui-input-block">
+                <input type="text" name="createUser" value="${detail.createUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateTime" value="${(detail.updateTime?string('yyyy-MM-dd HH:mm:ss'))!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">修改人</label>
+            <div class="layui-input-block">
+                <input type="text" name="updateUser" value="${detail.updateUser!}" readonly="readonly" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+    </form>
+</div>

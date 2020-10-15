@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>java基础代码生成</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/global.css" media="all">
+    <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/table.css"/>
+    <link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+
+<body>
+<div class="admin-main">
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-form">
+
+            <div class="layui-input-inline">
+                <label class="layui-label">数据库名称：</label>
+                <div class="layui-inline" >
+                    <select name="dataSourceName" id="DATASOURCENAME" style="padding: 0px 20px;">
+                        <!--<option value="">请选择</option>-->
+                        <#if dataBases?? && (dataBases?size>0)>
+                            <#list dataBases as dataBase>
+                                <option value="${dataBase.id}">${dataBase.dataSourceName}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="layui-input-inline" style="margin-left: 2%">
+                <button class="layui-btn" data-type="reload" id="search">搜索</button>
+            </div>
+
+        </div>
+    </blockquote>
+
+
+<div class="layui-row">
+    <div class="layui-col-md4">
+        <div class="layui-form-item">
+            <fieldset class="layui-elem-field" style="min-height: 500px;">
+                <legend id="detailLegendText"></legend>
+                <div class="layui-input-block" style="margin-left: 2%;">
+                    <ul id="treeDetail" class="ztree"></ul>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="layui-col-md7">
+
+        <fieldset class="layui-elem-field" style="min-height: 400px;">
+            <legend >生成目录配置</legend>
+            <div class="layui-form">
+
+                <div class="layui-form-item">
+
+                    <div class="layui-input-inline" style="margin-left: 5%;">
+                        <label class="layui-form-label">生成xml</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="mapperSwitch" value="true" lay-skin="switch" lay-filter="mapperSwitch" lay-text="ON|OFF" checked>
+                        </div>
+                    </div>
+
+                    <div class="layui-input-inline" >
+                        <label class="layui-form-label">使用lombok</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="lombokSwitch" value="false" lay-skin="switch" lay-filter="lombokSwitch" lay-text="ON|OFF">
+                        </div>
+                    </div>
+
+                    <div class="layui-input-inline" >
+                        <label class="layui-form-label" style="width: 45%">生成baseDao</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="baseDaoSwitch" value="false" lay-skin="switch" lay-filter="baseDaoSwitch" lay-text="ON|OFF">
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">实体类路径</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="entitySwitch" value="true" lay-skin="switch" lay-filter="entitySwitch" lay-text="ON|OFF" checked>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width: 70%">
+                        <div class="layui-input-block" style="margin-left:0px;">
+                            <input type="text" id="entityPath"  placeholder="请输入实体类路径" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">dao路径</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="daoSwitch" value="true" lay-skin="switch" lay-filter="daoSwitch" lay-text="ON|OFF" checked>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width: 70%">
+                        <div class="layui-input-block" style="margin-left:0px;">
+                            <input type="text" id="daoPath"  placeholder="请输入dao路径" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">service路径</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="serviceSwitch" value="true" lay-skin="switch" lay-filter="serviceSwitch" lay-text="ON|OFF" checked>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width: 70%">
+                        <div class="layui-input-block" style="margin-left:0px;">
+                            <input type="text" id="servicePath"  placeholder="请输入service路径" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">mapper路径</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" id="mapperSwitch" value="true" lay-skin="switch" lay-filter="mapperSwitch" lay-text="ON|OFF" checked>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width: 70%">
+                        <div class="layui-input-block" style="margin-left:0px;">
+                            <input type="text" id="mapperPath"  placeholder="请输入mapper路径" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                </div>-->
+
+            </div>
+        </fieldset>
+
+        <div class="layui-input-inline" style="margin-top: 4%;margin-left: 80%;">
+            <button class="layui-btn layui-btn-lg layui-btn-normal" lay-submit lay-filter="generate" id="generate">生成代码</button>
+        </div>
+
+
+    </div>
+
+    <!--<div class="layui-input-inline" style="margin-top: 4%;margin-left: 3%;">
+        <button class="layui-btn layui-btn-lg layui-btn-radius layui-btn-normal" lay-submit lay-filter="generate" id="generate">生成代码</button>
+    </div>
+-->
+</div>
+
+
+
+</div>
+
+
+<template id="tableColumnsTemplate" hidden>
+    <div class="admin-main">
+        <legend id="columnsLegendText"></legend>
+        <div class="layui-field-box layui-form">
+            <table class="layui-hide" id="tableColumns" lay-filter="barDemo"></table>
+        </div>
+    </div>
+</template>
+
+
+
+<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
+<script type="text/javascript" src="/js/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/js/ztree/jquery.ztree.excheck.js"></script>
+<script>
+    layui.config({
+        base: '/js/'
+    });
+
+    layui.use([ 'form','laydate','laypage', 'table','util'], function () {
+
+
+        var laydate = layui.laydate //日期
+            ,$ = layui.jquery
+            ,table = layui.table //表格
+            ,form = layui.form
+            ,util = layui.util;//元素操作
+
+        init();
+
+        $('#search').on('click', function () {
+            init();
+            return false;
+        });
+
+        //设置ajax请求完成后运行的函数
+        $.ajaxSetup({
+            complete:function(XMLHttpRequest){
+                if("REDIRECT" == XMLHttpRequest.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    layer.msg('登录失效，将为您跳转到登录页重新登录',
+                        {
+                            icon: 5,
+                            time: 3000
+                        }, function(){
+                            win.location.href = XMLHttpRequest.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                        });
+                }
+            }
+        });
+
+        //监听指定开关
+        /*form.on('switch()', function(data){
+            console.log(data.elem.id);
+            if (this.checked){
+                $('#entitySwitch').val(true);
+                $('#entityPath').show();
+            }else {
+                $('#entitySwitch').val(false);
+                $('#entityPath').hide();
+                layer.tips(
+                    '温馨提示:您关闭了实体类生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+        });*/
+
+        form.on('switch(baseDaoSwitch)', function(data){
+            if (this.checked){
+                $('#baseDaoSwitch').val(true);
+                layer.tips(
+                    '温馨提示:所有生成的dao接口都会继承一个公共的baseDao接口',
+                    data.othis, //跟随
+                    {
+                        time: 2500
+                    }
+                )
+            }else {
+                $('#baseDaoSwitch').val(false);
+                layer.tips(
+                    '温馨提示:您关闭了baseDao接口的生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+        });
+        form.on('switch(lombokSwitch)', function(data){
+            if (this.checked){
+                $('#lombokSwitch').val(true);
+                layer.tips(
+                    '温馨提示:开启lombok需要项目引入org.projectlombok.lombok包',
+                    data.othis, //跟随
+                    {
+                        time: 2500
+                    }
+                )
+            }else {
+                $('#lombokSwitch').val(false);
+                layer.tips(
+                    '温馨提示:您关闭了lombok选项，实体类默认生成setter，getter方法',
+                    data.othis, //跟随
+                    {
+                        time: 2500
+                    }
+                )
+            }
+        });
+
+        form.on('switch(mapperSwitch)', function(data){
+            if (this.checked){
+                $('#mapperSwitch').val(true);
+                //操作实体按钮
+                $('#entitySwitch').prop("checked",true);
+                $('#entitySwitch').val(true);
+                $('#entityPath').show();
+
+                //操作dao按钮
+                $('#daoSwitch').prop("checked",true);
+                $('#daoSwitch').val(true);
+                $('#daoPath').show();
+                layer.tips(
+                    '温馨提示:生成mapper.xml需要实体类以及dao的路径',
+                    data.othis, //跟随
+                    {
+                        time: 1500
+                    }
+                )
+            }else {
+                $('#mapperSwitch').val(false);
+                layer.tips(
+                    '温馨提示:您关闭了mapper.xml的生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+            form.render('checkbox');
+        });
+        form.on('switch(entitySwitch)', function(data){
+            if (this.checked){
+                $('#entitySwitch').val(true);
+                $('#entityPath').show();
+            }else {
+
+                $('#entitySwitch').removeAttr('checked');
+                $('#entitySwitch').val(false);
+                $('#entityPath').hide();
+
+                $('#mapperSwitch').attr("checked",false);
+                $('#mapperSwitch').val(false);
+
+                $('#serviceSwitch').removeAttr('checked');
+                $('#serviceSwitch').val(false);
+                $('#servicePath').hide();
+                layer.tips(
+                    '温馨提示:您关闭了实体类的生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+            form.render('checkbox');
+        });
+        form.on('switch(daoSwitch)', function(data){
+            if (this.checked){
+                $('#daoSwitch').val(true);
+                $('#daoPath').show();
+            }else {
+
+                $('#daoSwitch').removeAttr('checked');
+                $('#daoSwitch').val(false);
+                $('#daoPath').hide();
+
+                $('#mapperSwitch').attr("checked",false);
+                $('#mapperSwitch').val(false);
+
+                $('#serviceSwitch').removeAttr('checked');
+                $('#serviceSwitch').val(false);
+                $('#servicePath').hide();
+
+                layer.tips(
+                    '温馨提示:您关闭了dao接口的生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+            form.render('checkbox');
+        });
+        form.on('switch(serviceSwitch)', function(data){
+            if (this.checked){
+
+                $('#serviceSwitch').val(true);
+                $('#servicePath').show();
+
+                //操作实体按钮
+                $('#entitySwitch').prop("checked",true);
+                $('#entitySwitch').val(true);
+                $('#entityPath').show();
+
+                //操作dao按钮
+                $('#daoSwitch').prop("checked",true);
+                $('#daoSwitch').val(true);
+                $('#daoPath').show();
+                layer.tips(
+                    '温馨提示:生成service需要实体类以及dao的路径',
+                    data.othis, //跟随
+                    {
+                        time: 1500
+                    }
+                )
+            }else {
+                $('#serviceSwitch').removeAttr('checked');
+                $('#serviceSwitch').val(false);
+                $('#servicePath').hide();
+                layer.tips(
+                    '温馨提示:您关闭了service的生成',
+                    data.othis, //跟随
+                    {
+                        time: 1000
+                    }
+                )
+            }
+            form.render('checkbox');
+        });
+
+
+
+
+
+        function init() {
+            var id = DATASOURCENAME.value;
+            detailLegendText.innerText = $('#DATASOURCENAME option:selected').text()+"架构";
+            var setting = {
+                view: {
+                    // 禁止同时选中多个节点
+                    selectedMulti: false
+                },
+                async: { //异步请求数据
+                    enable: true,
+                    type:"get",
+                    url:"/api/generator/queryTable",
+                    otherParam:{"id": id}
+                    // autoParam:["id"]
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "parentId",
+                        rootPId: 0
+                    }
+                },
+                check: {
+                    enable: true,
+                    chkboxType: { "Y" : "s", "N" : "ps" }
+                },
+                callback:{//点击事件
+                    onClick :onClick
+                }
+            };
+
+            $.fn.zTree.init($("#treeDetail"), setting);
+        }
+
+
+        //点击事件
+        function onClick (event, treeId, treeNode) {//event----标准的 js event 对象,treeId----对应 zTree 的 treeId,treeNode----被点击的节点 JSON 数据对象
+            var connectionConfigId = treeNode["connectionConfigId"];
+            var name= treeNode["name"];
+            if (name.indexOf("数据库") != -1){
+                return;
+            }
+            var template = $('#tableColumnsTemplate').html();
+            layer.open({
+                type: 1,
+                title: name+'表详情',
+                content: template,
+                btn: ['确定'],
+                btnAlign: 'c',//按钮居中
+                offset: 'auto',
+                area: ['1200px', '80%'],
+                maxmin: true,
+                yes: function (index) {
+                    layer.close(index);
+                },
+                full: function (elem) {
+                    var win = window.top === window.self ? window : parent.window;
+                    $(win).on('resize', function () {
+                        var $this = $(this);
+                        elem.width($this.width()).height($this.height()).css({
+                            top: 0,
+                            left: 0
+                        });
+                        elem.children('div.layui-layer-content').height($this.height() - 95);
+                    });
+                },
+                success: function(layero, index) {
+                    var tableData = {
+                        even: true //开启隔行背景
+
+                        ,elem: '#tableColumns'
+                        ,url: '/api/generator/queryTableColumns' //数据接口
+                        ,method: 'get'
+                        // ,page: true //开启分页
+                        ,where: {
+                            id:connectionConfigId,
+                            table:name
+                        }
+                        ,cols: [[ //表头
+                            {field: 'tableSchema',title: '表架构'}
+                            ,{field: 'tableName',title: '表名'}
+                            ,{field: 'columnName',title: '列名'}
+                            ,{field: 'columnComment',title: '注释'}
+                            ,{field: 'columnType', title: '字段类型'}
+                            // ,{field: 'dataType', title: '数据类型'}
+                            ,{field: 'columnDefault', title: '默认值'}
+                            ,{field: 'numericPrecision', title: '精度'}
+                            ,{field: 'numericScale', title: '小数位'}
+                            // ,{field: 'characterOctetLength', title: '八位字节长度'}
+                            // ,{field: 'characterMaximumLength', title: '最大长度'}
+                            // ,{field: 'ordinalPosition', title: '列位置'}
+                            ,{field: 'characterSetName', title: '字符集'}
+                            // ,{field: 'collationName', title: '排序规则'}
+                            ,{field: 'isNullable', title: '是否允许为空'}
+                            ,{field: 'columnKey', title: '字段主键'}
+                            // ,{field: 'extra',title: '额外信息'}
+                            // ,{field: 'privileges',title: '权限'}
+                        ]]
+                    };
+                    table.render(tableData);
+                }
+            });
+
+        }
+
+
+        form.on('submit(generate)', function (data) {
+            //获取选中的表名
+            var zTree = $.fn.zTree.getZTreeObj("treeDetail");
+            var nodes = zTree.getCheckedNodes(true);
+            var tables = new Array();
+            for (var i = 0; i< nodes.length; i++) {
+                if (nodes[i].name.indexOf("数据库") == -1) {//不包含父级
+                    tables.push(nodes[i].name);
+                }
+            }
+            if (tables.length == 0){
+                layer.confirm('请选择您要生成的表', {icon: 0, title:'提示'}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if (entitySwitch.value == 'false' && serviceSwitch.value == 'false'
+                && daoSwitch.value == 'false' && mapperSwitch.value == 'false'
+                ){
+                layer.confirm('请至少选择一个生成路径', {icon: 0, title:'提示'}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if (entitySwitch.value == 'true' && entityPath.value == ''){
+                layer.msg('请输入实体类生成路径', {icon: 0, time: 1500});
+                return false;
+            }
+            if (serviceSwitch.value == 'true' && servicePath.value == ''){
+                layer.msg('请输入service生成路径', {icon: 0, time: 1500});
+                return false;
+            }
+            if (daoSwitch.value == 'true' && daoPath.value == ''){
+                layer.msg('请输入dao生成路径', {icon: 0, time: 1500});
+                return false;
+            }
+            /*if (mapperSwitch.value == 'true' && mapperPath.value == ''){
+                layer.msg('请输入mapper生成路径', {icon: 0, time: 1500});
+                return false;
+            }*/
+            $("#generate").addClass("layui-btn-disabled");
+            $("#generate").attr("disabled",true);
+            // form.render(null, 'generate'); //更新 lay-filter="generate" 所在容器内的全部表单状态
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                url: "/api/generator/generate",
+                dateType:"json",
+                data: JSON.stringify({
+                    connectionConfigId:nodes[0].connectionConfigId,
+                    tables: tables,
+                    baseDaoFlag: baseDaoSwitch.value,
+                    lombokFlag: lombokSwitch.value,
+                    entitySwitchFlag: entitySwitch.value,
+                    serviceSwitchFlag: serviceSwitch.value,
+                    daoSwitchFlag: daoSwitch.value,
+                    mapperSwitchFlag: mapperSwitch.value,
+                    entityPath: entityPath.value,
+                    servicePath: servicePath.value,
+                    daoPath: daoPath.value
+                }),
+                success : function(data) {
+                    if (0 == data.code){
+                        layer.msg('代码已生成,开始准备为您下载……',
+                            {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            },function () {
+                                window.location.href = "/api/generator/downCode?fileName="+data.data;
+                            });
+                    }else {
+                        layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                time: 3000
+                            });
+                    }
+                    $("#generate").removeClass("layui-btn-disabled");
+                    $("#generate").removeAttr("disabled");
+                },
+                error:function(){
+                    $("#generate").removeClass("layui-btn-disabled");
+                    $("#generate").removeAttr("disabled");
+                    layer.msg('亲，请求异常了……',
+                        {
+                            icon: 5,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                }
+            });
+            // form.render(null, 'generate'); //更新 lay-filter="generate" 所在容器内的全部表单状态
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+
+    });
+
+
+
+
+</script>
+</body>
+
+</html>

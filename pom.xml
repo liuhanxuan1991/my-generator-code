@@ -21,7 +21,7 @@
         <mybatis-spring-boot>1.3.2</mybatis-spring-boot>
         <lombok>1.16.22</lombok>
         <commons-lang3>3.5</commons-lang3>
-        <commons-beanutils>1.9.3</commons-beanutils>
+        <commons-beanutils>1.9.4</commons-beanutils>
         <fastjson>1.2.28</fastjson>
         <cglib-nodep>3.2.8</cglib-nodep>
         <pagehelper>1.2.3</pagehelper>
